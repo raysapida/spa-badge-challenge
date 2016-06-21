@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <link rel="stylesheet" type="text/css" href="css/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
+  <script src="js/lib/miniQuery.js"></script>
   <script src="js/app.js"></script>
   <title>SPABadge</title>
 </head>
@@ -10,10 +12,21 @@
       <h1> SPA Badge </h1>
     </div>
     <h1> SF Teachers </h1>
+      <ul class='teachers-placeholder'>
+
+      </ul>
+
       <ul>
-        <li><a href="#">Walker</a></li>
         <li><a href="sample-page.html">Sample Page (to see what the badges view should look like)</a></li>
       </ul>
   </div>
+
+
+  <script id="teacher-template" type="text/x-handlebars-template">
+    {{#each teachers}}
+      <li><a href="#">{{name}}</a></li>
+    {{/each}}
+  </script>
+
 </body>
 </html>
