@@ -1,5 +1,5 @@
 $.ready(function () {
-  miniQuery.ajax({
+  $.ajax({
     url: 'http://spa-badge-api.herokuapp.com/teachers',
     type: 'GET'
   }).then(function(response){
@@ -13,22 +13,22 @@ $.ready(function () {
     console.log(response);
   })
 
+  window.addEventListener('hashchange', function(){
+    if (!location.toString().match(/\#/)) {
+      miniQuery('#index').show();
+      miniQuery('#show').hide();
+    } else {
+      miniQuery('#index').hide();
+      miniQuery('#show').show();
+      var theTemplateScript = miniQuery("#teacher-badge-template").select()[0].innerHTML;
+      var theTemplate = Handlebars.compile(theTemplateScript);
+      var name = location.toString().split('#')[1]//.match(/\#.*/)
+      var context = { name: name}
+      var theCompiledHtml = theTemplate(context);
+      miniQuery('#show').select()[0].innerHTML = theCompiledHtml;
+    }
+    console.log(location);
+  })
 
-  // // Grab the template script
-  // var theTemplateScript = miniQuery("#teacher-template").select()[0].innerHTML;
-  // // Compile the template
-  // var theTemplate = Handlebars.compile(theTemplateScript);
 
-  // // Define our data object
-  // var context={
-  //   "city": "London",
-  //   "street": "Baker Street",
-  //   "number": "221B"
-  // };
-
-  // // Pass our data to the template
-  // var theCompiledHtml = theTemplate(context);
-
-  // // Add the compiled html to the page
-  // miniQuery('.content-placeholder').innerHTML = theCompiledHtml;
 });
