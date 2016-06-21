@@ -150,5 +150,4 @@ miniQuery.ready = function(callback){
   });
 }
 
-
 var $ = Object.assign({}, miniQuery);
