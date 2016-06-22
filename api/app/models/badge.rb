@@ -3,4 +3,6 @@ class Badge < ActiveRecord::Base
   validates :votes, presence:true, numericality: true
   validates :teacher_id, presence: true, numericality: true
   belongs_to :teacher
+
+  default_scope { order(votes: :desc) }
 end
