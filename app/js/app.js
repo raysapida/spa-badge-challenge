@@ -7,7 +7,7 @@ $.ready(function () {
 
 function setUpIndexPage(){
   $.ajax({
-    url: 'http://spa-badge-api.herokuapp.com/teachers',
+    url: 'http://localhost:3000/teachers',
     type: 'GET'
   }).then(function(response){
     teachers = JSON.parse(response);
@@ -104,7 +104,7 @@ function createAVote(url, vote_type, id) {
 
 function setUpTeacherPage(name, teacher_id) {
   $.ajax({
-    url: "http://spa-badge-api.herokuapp.com/teachers/" + teacher_id,
+    url: "http://localhost:3000/teachers/" + teacher_id,
     type: "GET"
   }).then(function(response){
     var teacher = JSON.parse(response);

@@ -33,7 +33,7 @@
   <div id={{id}} class="slogan">
     <div class="body">{{this.id}} {{this.phrase}}</div>
     <div class="vote-on">
-      <form action="spa-badge-api.herokuapp.com/teachers/{{id}}/badges/vote">
+      <form action="http://localhost:3000/teachers/{{id}}/badges/vote">
         <input type="hidden" name="slogan_id" value={{id}}>
         <input type="hidden" name="vote_type" value="up">
         <button class="up" type="submit" name="submit">
@@ -42,7 +42,7 @@
       </form>
     </div>
     <div class="vote-on">
-      <form action="spa-badge-api.herokuapp.com/teachers/{{id}}/badges/vote">
+      <form action="http://localhost:3000/teachers/{{id}}/badges/vote">
         <input type="hidden" name="slogan_id" value={{id}}>
         <input type="hidden" name="vote_type" value="down">
         <button class="down" type="submit" name="submit">
@@ -69,7 +69,7 @@
     <div id={{id}} class="slogan">
       <div class="body">{{this.id}} {{this.phrase}}</div>
       <div class="vote-on">
-        <form action="spa-badge-api.herokuapp.com/teachers/{{id}}/badges/vote">
+        <form action="http://localhost:3000/teachers/{{id}}/badges/vote">
           <input type="hidden" name="slogan_id" value={{id}}>
           <input type="hidden" name="vote_type" value="up">
           <button class="up" type="submit" name="submit">
@@ -78,7 +78,7 @@
         </form>
       </div>
       <div class="vote-on">
-        <form action="spa-badge-api.herokuapp.com/teachers/{{id}}/badges/vote">
+        <form action="http://localhost:3000/teachers/{{id}}/badges/vote">
           <input type="hidden" name="slogan_id" value={{id}}>
           <input type="hidden" name="vote_type" value="down">
           <button class="down" type="submit" name="submit">
@@ -98,7 +98,7 @@
 
   <div class="add-badge">
     <h3> Add a Badge: </h3>
-    <form action="http://spa-badge-api.herokuapp.com/teachers/{{id}}/badges" method="POST" class="submit-form">
+    <form action="http://localhost:3000/teachers/{{id}}/badges" method="POST" class="submit-form">
       <input type="text" name="phrase" />
       <input type="hidden" name="votes" value=0 />
       <input type="hidden" name="teacher_id" value={{id}} />
