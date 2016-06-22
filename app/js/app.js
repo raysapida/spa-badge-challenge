@@ -38,9 +38,41 @@ function showTeacherBadges(teacher) {
   miniQuery('#show').select()[0].innerHTML = theCompiledHtml;
 }
 
+function showTeacherBadge(badge) {
+  var theTemplateScript = miniQuery("#badge-template").select()[0].innerHTML;
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  var theCompiledHtml = theTemplate(badge);
+  miniQuery('.show-user').select()[0].innerHTML += theCompiledHtml;
+}
+
 function toggleViews(elemToHide, elemToShow) {
   miniQuery(elemToHide).hide();
   miniQuery(elemToShow).show();
+}
+
+function createABadge(url, phrase, teacher_id, votes) {
+  $.ajax({
+    url: url,
+    type: 'POST',
+    data: "phrase="+phrase+"&teacher_id="+teacher_id+"&votes="+votes
+  }).then(function(response) {
+    var badge = JSON.parse(response);
+    showTeacherBadge(badge);
+  }).catch(function(response) {
+    console.log(response);
+  })
+}
+
+function addEventToBadgesSubmit() {
+  miniQuery('.submit-form').on('submit', function(event){
+    event.preventDefault();
+    var url = this.getAttribute("action");
+    var inputs = this.getElementsByTagName('input')
+    var phrase = inputs.phrase.value;
+    var teacher_id = inputs.teacher_id.value;
+    var votes = inputs.votes.value;
+    createABadge(url, phrase, teacher_id, votes);
+  })
 }
 
 function setUpTeacherPage(name, teacher_id) {
@@ -50,30 +82,7 @@ function setUpTeacherPage(name, teacher_id) {
   }).then(function(response){
     var teacher = JSON.parse(response);
     showTeacherBadges(teacher);
-
-    miniQuery('.submit-form').on('submit', function(event){
-      event.preventDefault();
-      var url = this.getAttribute("action");
-      var inputs = this.getElementsByTagName('input')
-      var phrase = inputs.phrase.value;
-      var teacher_id = inputs.teacher_id.value;
-      var votes = inputs.votes.value;
-
-      $.ajax({
-        url: url,
-        type: 'POST',
-        data: "phrase="+phrase+"&teacher_id="+teacher_id+"&votes="+votes
-      }).then(function(response) {
-
-        var badge = JSON.parse(response);
-        var theTemplateScript = miniQuery("#badge-template").select()[0].innerHTML;
-        var theTemplate = Handlebars.compile(theTemplateScript);
-        var theCompiledHtml = theTemplate(badge);
-        miniQuery('.show-user').select()[0].innerHTML += theCompiledHtml;
-      }).catch(function(response) {
-        console.log(response);
-      })
-    })
+    addEventToBadgesSubmit();
   })
 }
 
