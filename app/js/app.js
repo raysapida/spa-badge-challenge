@@ -31,53 +31,62 @@ function showTeacherList(teachers) {
   miniQuery('.teachers-placeholder').select()[0].innerHTML = theCompiledHtml;
 }
 
+function showTeacherBadges(teacher) {
+  var theTemplateScript = miniQuery("#teacher-badge-template").select()[0].innerHTML;
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  var theCompiledHtml = theTemplate(teacher);
+  miniQuery('#show').select()[0].innerHTML = theCompiledHtml;
+}
+
+function toggleViews(elemToHide, elemToShow) {
+  miniQuery(elemToHide).hide();
+  miniQuery(elemToShow).show();
+}
+
+function setUpTeacherPage(name, teacher_id) {
+  $.ajax({
+    url: "http://spa-badge-api.herokuapp.com/teachers/" + teacher_id,
+    type: "GET"
+  }).then(function(response){
+    var teacher = JSON.parse(response);
+    showTeacherBadges(teacher);
+
+    miniQuery('.submit-form').on('submit', function(event){
+      event.preventDefault();
+      var url = this.getAttribute("action");
+      var inputs = this.getElementsByTagName('input')
+      var phrase = inputs.phrase.value;
+      var teacher_id = inputs.teacher_id.value;
+      var votes = inputs.votes.value;
+
+      $.ajax({
+        url: url,
+        type: 'POST',
+        data: "phrase="+phrase+"&teacher_id="+teacher_id+"&votes="+votes
+      }).then(function(response) {
+
+        var badge = JSON.parse(response);
+        var theTemplateScript = miniQuery("#badge-template").select()[0].innerHTML;
+        var theTemplate = Handlebars.compile(theTemplateScript);
+        var theCompiledHtml = theTemplate(badge);
+        miniQuery('.show-user').select()[0].innerHTML += theCompiledHtml;
+      }).catch(function(response) {
+        console.log(response);
+      })
+    })
+  })
+}
+
 function listenForHashChanges(argument) {
   window.addEventListener('hashchange', function(){
     if (!location.toString().match(/\#/)) {
-      miniQuery('#index').show();
-      miniQuery('#show').hide();
+      toggleViews('#show', '#index');
     } else {
-      miniQuery('#index').hide();
-      miniQuery('#show').show();
+      toggleViews('#index', '#show');
+
       var name = location.toString().split('#')[1]
       var teacher_id = findTeacher(name)[0].id;
-
-      $.ajax({
-        url: "http://spa-badge-api.herokuapp.com/teachers/" + teacher_id,
-        type: "GET"
-      }).then(function(response){
-         var teacher = JSON.parse(response);
-         var theTemplateScript = miniQuery("#teacher-badge-template").select()[0].innerHTML;
-         var theTemplate = Handlebars.compile(theTemplateScript);
-         var theCompiledHtml = theTemplate(teacher);
-         miniQuery('#show').select()[0].innerHTML = theCompiledHtml;
-
-         miniQuery('.submit-form').on('submit', function(event){
-          event.preventDefault();
-          var url = this.getAttribute("action");
-          var inputs = this.getElementsByTagName('input')
-          var phrase = inputs.phrase.value;
-          var teacher_id = inputs.teacher_id.value;
-          var votes = inputs.votes.value;
-
-          $.ajax({
-            url: url,
-            type: 'POST',
-            data: "phrase="+phrase+"&teacher_id="+teacher_id+"&votes="+votes
-          }).then(function(response) {
-
-            var badge = JSON.parse(response);
-            console.log(badge);
-            var theTemplateScript = miniQuery("#badge-template").select()[0].innerHTML;
-            var theTemplate = Handlebars.compile(theTemplateScript);
-            var theCompiledHtml = theTemplate(badge);
-            console.log(miniQuery('.show-user').select()[0].outerHTML);
-            miniQuery('.show-user').select()[0].innerHTML += theCompiledHtml;
-          }).catch(function(response) {
-            console.log(response);
-          })
-        })
-      })
+      setUpTeacherPage(name, teacher_id)
     }
   })
 }
