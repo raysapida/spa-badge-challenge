@@ -33,7 +33,7 @@
   <div id={{id}} class="slogan">
     <div class="body">{{this.id}} {{this.phrase}}</div>
     <div class="vote-on">
-      <form action="http://localhost:3000/teachers/{{id}}/badges/vote">
+      <form action="http://localhost:3000/teachers/{{this.teacher_id}}/badges/{{this.id}}">
         <input type="hidden" name="slogan_id" value={{id}}>
         <input type="hidden" name="vote_type" value="up">
         <button class="up" type="submit" name="submit">
@@ -42,7 +42,7 @@
       </form>
     </div>
     <div class="vote-on">
-      <form action="http://localhost:3000/teachers/{{id}}/badges/vote">
+      <form action="http://localhost:3000/teachers/{{this.teacher_id}}/badges/{{this.id}}">
         <input type="hidden" name="slogan_id" value={{id}}>
         <input type="hidden" name="vote_type" value="down">
         <button class="down" type="submit" name="submit">
@@ -69,7 +69,7 @@
     <div id={{id}} class="slogan">
       <div class="body">{{this.id}} {{this.phrase}}</div>
       <div class="vote-on">
-        <form action="http://localhost:3000/teachers/{{id}}/badges/vote">
+        <form action="http://localhost:3000/teachers/{{this.teacher_id}}/badges/{{this.id}}">
           <input type="hidden" name="slogan_id" value={{id}}>
           <input type="hidden" name="vote_type" value="up">
           <button class="up" type="submit" name="submit">
@@ -78,7 +78,7 @@
         </form>
       </div>
       <div class="vote-on">
-        <form action="http://localhost:3000/teachers/{{id}}/badges/vote">
+        <form action="http://localhost:3000/teachers/{{this.teacher_id}}/badges/{{this.id}}">
           <input type="hidden" name="slogan_id" value={{id}}>
           <input type="hidden" name="vote_type" value="down">
           <button class="down" type="submit" name="submit">

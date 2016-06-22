@@ -34,6 +34,7 @@ function showTeacherList(teachers) {
 function showTeacherBadges(teacher) {
   var theTemplateScript = miniQuery("#teacher-badge-template").select()[0].innerHTML;
   var theTemplate = Handlebars.compile(theTemplateScript);
+  console.log(teacher);
   var theCompiledHtml = theTemplate(teacher);
   miniQuery('#show').select()[0].innerHTML = theCompiledHtml;
 }
@@ -90,12 +91,10 @@ function addEventToVotesSumbit() {
 function createAVote(url, vote_type, id) {
   $.ajax({
     url: url,
-    type: 'POST',
+    type: 'PUT',
     data: "vote_type="+vote_type
-  }).then(function(resoponse) {
-    console.log(response);
+  }).then(function(response) {
     var vote = JSON.parse(response);
-    console.log(vote);
     miniQuery('#'+id).select()[0].lastElementChild.innerHTML = '(' + vote.votes + ' points)';
   }).catch(function(response) {
     console.log(response);

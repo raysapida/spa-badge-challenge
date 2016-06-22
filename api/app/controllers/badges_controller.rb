@@ -10,4 +10,21 @@ class BadgesController < ApplicationController
       render json: @badge.errors.full_message
     end
   end
+
+  def update
+    @teacher = Teacher.find(params[:teacher_id])
+    @badge = Badge.find(params[:id])
+    if params[:vote_type] == 'up'
+      @badge.votes += 1
+      @badge.save
+      render json: @badge
+    elsif params[:vote_type] == 'down'
+      @badge.votes -= 1
+      @badge.save
+      render json: @badge
+    else
+      render json: { success: false}
+    end
+
+  end
 end

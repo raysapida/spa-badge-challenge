@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resources :teachers, only: [:index, :show] do
-      resources :badges, only: [:create]
+      resources :badges, only: [:create, :update]
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

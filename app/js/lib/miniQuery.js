@@ -82,10 +82,15 @@ var AjaxWrapper = (function(){
           client.open(type, url)
           client.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           client.send(data);
+        } else if (type.toUpperCase() === 'PUT'){
+          client.open(type, url)
+          client.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          client.send(data);
         }
 
         client.onload = function(){
-            if(this.status >= 200 && this.status < 300){
+            if(this.status >= 200 && this.status < 400){
+              console.log(this);
               resolve(this.response);
             } else {
               reject(this.statusText);
