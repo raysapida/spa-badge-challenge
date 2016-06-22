@@ -72,6 +72,33 @@ function addEventToBadgesSubmit() {
     var teacher_id = inputs.teacher_id.value;
     var votes = inputs.votes.value;
     createABadge(url, phrase, teacher_id, votes);
+    addEventToVotesSumbit();
+  })
+}
+
+function addEventToVotesSumbit() {
+  miniQuery('.vote-on').on('submit', function (event) {
+    event.preventDefault();
+    var url = this.firstElementChild.getAttribute("action");
+    var id = this.parentNode.getAttribute('id');
+    var inputs = this.getElementsByTagName('input');
+    var vote_type = inputs.vote_type.value;
+    createAVote(url, vote_type, id);
+  })
+}
+
+function createAVote(url, vote_type, id) {
+  $.ajax({
+    url: url,
+    type: 'POST',
+    data: "vote_type="+vote_type
+  }).then(function(resoponse) {
+    console.log(response);
+    var vote = JSON.parse(response);
+    console.log(vote);
+    miniQuery('#'+id).select()[0].lastElementChild.innerHTML = '(' + vote.votes + ' points)';
+  }).catch(function(response) {
+    console.log(response);
   })
 }
 
@@ -83,6 +110,9 @@ function setUpTeacherPage(name, teacher_id) {
     var teacher = JSON.parse(response);
     showTeacherBadges(teacher);
     addEventToBadgesSubmit();
+    addEventToVotesSumbit();
+  }).catch(function(response) {
+    console.log(response);
   })
 }
 
